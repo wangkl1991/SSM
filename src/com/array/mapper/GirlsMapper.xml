@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.array.dao.GirlsMapper" >
+  <resultMap id="BaseResultMap" type="com.array.model.Girls" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="sname" property="sname" jdbcType="VARCHAR" />
+    <result column="cometime" property="cometime" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="maxscore" property="maxscore" jdbcType="INTEGER" />
+    <result column="minscore" property="minscore" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, sname, cometime, age, maxscore, minscore
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from girls
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from girls
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.array.model.Girls" >
+    insert into girls (id, sname, cometime, 
+      age, maxscore, minscore
+      )
+    values (#{id,jdbcType=INTEGER}, #{sname,jdbcType=VARCHAR}, #{cometime,jdbcType=VARCHAR}, 
+      #{age,jdbcType=INTEGER}, #{maxscore,jdbcType=INTEGER}, #{minscore,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.array.model.Girls" >
+    insert into girls
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sname != null" >
+        sname,
+      </if>
+      <if test="cometime != null" >
+        cometime,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="maxscore != null" >
+        maxscore,
+      </if>
+      <if test="minscore != null" >
+        minscore,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sname != null" >
+        #{sname,jdbcType=VARCHAR},
+      </if>
+      <if test="cometime != null" >
+        #{cometime,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="maxscore != null" >
+        #{maxscore,jdbcType=INTEGER},
+      </if>
+      <if test="minscore != null" >
+        #{minscore,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.array.model.Girls" >
+    update girls
+    <set >
+      <if test="sname != null" >
+        sname = #{sname,jdbcType=VARCHAR},
+      </if>
+      <if test="cometime != null" >
+        cometime = #{cometime,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="maxscore != null" >
+        maxscore = #{maxscore,jdbcType=INTEGER},
+      </if>
+      <if test="minscore != null" >
+        minscore = #{minscore,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.array.model.Girls" >
+    update girls
+    set sname = #{sname,jdbcType=VARCHAR},
+      cometime = #{cometime,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      maxscore = #{maxscore,jdbcType=INTEGER},
+      minscore = #{minscore,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 查询秀女列表 -->
+  <select id="getAll" resultMap="BaseResultMap">
+      select * from girls
+  </select>
+   <select id="toUpdateByid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from girls
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <update id="doUpdateByid" parameterType="com.array.model.Girls" >
+    update girls
+    set sname = #{sname,jdbcType=VARCHAR},
+      cometime = #{cometime,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      maxscore = #{maxscore,jdbcType=INTEGER},
+      minscore = #{minscore,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

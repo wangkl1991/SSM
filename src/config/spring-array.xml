@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+		<!-- 1.配置数据源： -->
+	    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	         <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+	         <property name="url" value="jdbc:mysql://localhost:3306/array"></property> 
+	         <property name="username" value="root"></property>
+	         <property name="password" value="1111"></property>
+	    </bean>
+	    
+	    <!-- 2.整合mybatis配置文件 -->
+	    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	         <!-- 2.1关联数据源 -->
+	         <property name="dataSource" ref="dataSource"></property>
+	         <!-- 2.2扫描mybatis的在mapper包中的xml 和扫描mybatis的配置文件-->
+	         <property name="mapperLocations" value="classpath:com/array/mapper/*.xml"></property>
+	         <property name="configLocation" value="classpath:config/mybatis-config.xml"></property>
+	    </bean>
+	    <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	         <property name="basePackage" value="com/array/dao"></property>
+	         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+	    </bean>
+	    
+	    <!-- 3.事务管理管理器 -->
+	    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	    	<property name="dataSource" ref="dataSource"></property>
+	    </bean>
+	    <!-- 4.声明式事务  引用上面定义的事务管理器-->
+	    <tx:annotation-driven transaction-manager="txManager"/>
+	    <!-- 5.加载日志文件等配置文件 -->
+	    <bean id="" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	         <property name="locations">
+	         	<list>
+	         		<value>classpath:config/log4j.properties</value>
+	         	</list>
+	         </property>
+	    </bean>
+	    
+</beans>	    
